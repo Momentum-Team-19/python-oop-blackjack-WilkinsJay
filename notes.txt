@@ -1,0 +1,36 @@
+# class for the game
+
+# attributes
+# -number of cards dealt
+# -number of cards in unused_cards list
+# -number of cards in used_cards list
+
+# methods
+# -shuffle cards
+# -dealing cards
+# -players bet on their hand
+# -evaluate players hands out of 21 (calculate hand vaule total, handle a variability), if > then bust
+# -compare players hands with dealers to decide the winner
+# -add used cards to used_cards list
+
+
+# class for the player
+
+# attributes
+# -player name
+# -game history wins/loses
+# -specific rules for players
+
+# methods
+# -inputting name
+# -deciding if player wants another card ?
+
+# class for cards
+
+# attributes
+# -suit
+# -number (rank)
+# -52 cards in total 
+
+# methods
+# -add all cards to unused_cards list
