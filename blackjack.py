@@ -50,35 +50,103 @@ class Dealer:
         self.score = 0
 
 
-new_deck = Deck(SUITS, RANKS)
-new_deck.shuffle()
+class Game:
+    def __init__(self):
+        self.deck = Deck(SUITS, RANKS)
+        self.deck.shuffle()
+        self.player = Player()
+        self.dealer = Dealer()
 
+    def play_game(self):
+        self.dealer.hand.append(self.deck.draw_card())
+        while len(self.player.hand) < 2:
+            self.player.hand.append(self.deck.draw_card())
+        print(self.player.name)
+        for card in self.player.hand:
+            self.player.score += card.value
+            print(card)
+        print(self.player.score)
 
-new_player = Player()
+        while len(self.dealer.hand) < 2:
+            self.dealer.hand.append(self.deck.draw_card())
+        print(self.dealer.name)
+        for card in self.dealer.hand:
+            self.dealer.score += card.value
+            print(card)
+        print(self.dealer.score)
+        if self.player.score == 21 or self.dealer.score == 21:
+            if self.dealer.score < 21:
+                print('Player has blackjack!')
+                self.declare_winner()
+                return
+            elif self.player.score < 21:
+                print('Dealer has blackjack 😕')
+                self.declare_winner()
+                return
+            else:
+                print()
+        if self.player.score < 21:
+            self.player_hit()
+        if self.player.score <= 21:
+            self.dealer_hit()
+        self.declare_winner()
 
+    def player_hit(self):
+        action = None
+        while action != 's':
+            action = input('[h]it or [s]tay ').lower().strip()
+            if action == 'h':
+                self.player.hand.append(self.deck.draw_card())
+                self.player.score = sum(
+                    card.value for card in self.player.hand)
+                if 'A' in [card.rank for card in self.player.hand] and self.player.score > 21:
+                    self.player.score -= 10
+                print('value:', self.player.score)
+                for card in self.player.hand:
+                    print(card)
+                if self.player.score > 21:
+                    print('Dang I just busted!')
+                    break
+                elif self.player.score == 21:
+                    print('21 21!!')
+                    break
+            elif action != 's':
+                print('Invalid choice. Enter h or s')
+        else:
+            print('You stayed, good choice 😏')
 
-new_dealer = Dealer()
+    def declare_winner(self):
+        if self.player.score > 21:
+            print('Dealer won that hand')
+        elif self.dealer.score > 21:
+            print('Player won that hand')
+        elif self.player.score <= 21 and self.dealer.score <= 21:
+            if self.player.score == self.dealer.score:
+                print("It's a draw")
+            elif self.player.score > self.dealer.score:
+                print('Player won that hand')
+            else:
+                print('Dealer won that hand')
 
+    def dealer_hit(self):
+        print('Dealers turn:')
+        while self.dealer.score < 17:
+            self.dealer.hand.append(self.deck.draw_card())
+            self.dealer.score = sum(
+                card.value for card in self.dealer.hand)
+            print('Dealer Biggie')
+            for card in self.dealer.hand:
+                print(card)
+            print('dealers score:', self.dealer.score)
+            if self.dealer.score > 21:
+                print('HOORAYYY the dealer BUSTED!')
+                break
+            elif self.dealer.score == 21:
+                print('Dealer got 21')
+                break
 
-while len(new_player.hand) < 2:
-    new_player.hand.append(new_deck.draw_card())
-print(new_player.name)
-for card in new_player.hand:
-    new_player.score += card.value
-    print(card)
-print(new_player.score)
-
-while len(new_dealer.hand) < 2:
-    new_dealer.hand.append(new_deck.draw_card())
-print(new_dealer.name)
-for card in new_dealer.hand:
-    new_dealer.score += card.value
-    print(card)
-print(new_dealer.score)
-
-
-
-
+new_game = Game()
+new_game.play_game()
 
 # user_card = Card(K, '❤')
 # print(user_card)

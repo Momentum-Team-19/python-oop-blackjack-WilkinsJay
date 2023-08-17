@@ -34,3 +34,6 @@
 
 # methods
 # -add all cards to unused_cards list
+
+# when does the dealer chose to hit or stay?
+# is there a certain number for when they hit?
